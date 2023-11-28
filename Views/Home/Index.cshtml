@@ -1,0 +1,18 @@
+﻿@model FizzBuzz
+
+<h2>Enter a Number</h2>
+
+<form asp-action="Index2" method="post">
+
+
+
+    <div class="form-group">
+        <label asp-for="Number">Enter a positive integer:</label>
+        <br />
+        <input asp-for="Number" class="form-control" />
+        <span asp-validation-for="Number" class="text-danger"></span>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+</form>
