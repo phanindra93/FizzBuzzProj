@@ -1,75 +1,72 @@
-﻿using FizzBuzzProj.Controllers;
+
+
+using FizzBuzzProj.Controllers;
 using FizzBuzzProj.Interfaces;
 using Microsoft.Extensions.Logging;
+using Moq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
-using Moq;
-
-
 
 namespace FizzBuzzProj.Tests
 {
     public class HomeControllerTests
     {
+        private readonly Mock<IDivisibleByThree> divisibleByThreeMock;
+        private readonly Mock<IDivisibleByFive> divisibleByFiveMock;
+        private readonly Mock<IDivisibleByThreeAndFive> divisibleByThreeAndFiveMock;
+
         public HomeControllerTests()
         {
+            divisibleByThreeMock = new Mock<IDivisibleByThree>();
+            divisibleByFiveMock = new Mock<IDivisibleByFive>();
+            divisibleByThreeAndFiveMock = new Mock<IDivisibleByThreeAndFive>();
         }
+
         [Fact]
-        public void GenerateFizzBuzz_RandomNumberWithinRange_ChecksFizzAndBuzz()
+        public void GenerateFizzBuzz_ChecksDivisibleByThree()
         {
             // Arrange
-            var loggerMock = new Mock<ILogger<HomeController>>();
-            
-            var divisibleByThreeMock = new Mock<IDivisibleByThree>();
-            var divisibleByFiveMock = new Mock<IDivisibleByFive>();
-            var divisibleByThreeAndFiveMock = new Mock<IDivisibleByThreeAndFive>();
-
             divisibleByThreeMock.Setup(x => x.IsDivisibleByThree(It.IsAny<int>())).Returns<int>(n => n % 3 == 0);
-            divisibleByFiveMock.Setup(x => x.IsDivisibleByFive(It.IsAny<int>())).Returns<int>(n => n % 5 == 0);
 
-            var homeController = new HomeController(
- divisibleByThreeMock.Object,
-                divisibleByFiveMock.Object,
-                divisibleByThreeAndFiveMock.Object);
+            var homeController = new HomeController(divisibleByThreeMock.Object, divisibleByFiveMock.Object, divisibleByThreeAndFiveMock.Object);
 
             // Act
-            List<string> fizzBuzzList = homeController.GenerateFizzBuzz(44);
+            List<string> fizzBuzzList = homeController.GenerateFizzBuzz(33); // Any number that is divisible by 3
 
             // Assert
-            Assert.NotNull(fizzBuzzList);
+            Assert.Contains("Fizz", fizzBuzzList, StringComparer.OrdinalIgnoreCase);
+        }
 
-            // Choose a random index from the generated list
-            Random random = new Random();
-            int randomIndex = random.Next(0, fizzBuzzList.Count);
+        [Fact]
+        public void GenerateFizzBuzz_ChecksDivisibleByFive()
+        {
+            // Arrange
+            divisibleByFiveMock.Setup(x => x.IsDivisibleByFive(It.IsAny<int>())).Returns<int>(n => n % 5 == 0);
 
-            // Check if the randomly selected number at the index is "Fizz" or "Buzz"
-            int randomNumber = randomIndex + 1; // Adjust index to match 1-based FizzBuzz counting
-            bool isFizz = divisibleByThreeMock.Object.IsDivisibleByThree(randomNumber);
-            bool isBuzz = divisibleByFiveMock.Object.IsDivisibleByFive(randomNumber);
+            var homeController = new HomeController(divisibleByThreeMock.Object, divisibleByFiveMock.Object, divisibleByThreeAndFiveMock.Object);
 
-            // Assert that the result in the list matches the expected condition (case-insensitive)
-            if (isFizz && isBuzz)
-            {
-                Assert.Equal("Fizz Buzz", fizzBuzzList[randomIndex], ignoreCase: true);
-            }
-            else if (isFizz)
-            {
-                Assert.Equal("Fizz", fizzBuzzList[randomIndex], ignoreCase: true);
-            }
-            else if (isBuzz)
-            {
-                Assert.Equal("Buzz", fizzBuzzList[randomIndex], ignoreCase: true);
-            }
-            else
-            {
-                Assert.Equal(randomNumber.ToString(), fizzBuzzList[randomIndex]);
-            }
+            // Act
+            List<string> fizzBuzzList = homeController.GenerateFizzBuzz(10); 
+
+            // Assert
+            Assert.Contains("Buzz", fizzBuzzList, StringComparer.OrdinalIgnoreCase);
+        }
+
+        [Fact]
+        public void GenerateFizzBuzz_ChecksDivisibleByThreeAndFive()
+        {
+            // Arrange
+            divisibleByThreeAndFiveMock.Setup(x => x.IsDivisibleByThreeAndFive(It.IsAny<int>())).Returns<int>(n => n % 3 == 0 && n % 5 == 0);
+
+            var homeController = new HomeController(divisibleByThreeMock.Object, divisibleByFiveMock.Object, divisibleByThreeAndFiveMock.Object);
+
+            // Act
+            List<string> fizzBuzzList = homeController.GenerateFizzBuzz(15); 
+
+            // Assert
+            Assert.Contains("Fizz Buzz", fizzBuzzList, StringComparer.OrdinalIgnoreCase);
         }
     }
 }
-
 
