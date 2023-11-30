@@ -1,0 +1,19 @@
+﻿{
+  "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+  "settings": {
+    "documentationRules": {
+      "companyName": "ABC",
+      "copyrightText": "Copyright © ABC"
+    },
+    "namingRules": {
+      "allowCommonHungarianPrefixes": false,
+      "allowCommonAbbreviations": false
+    },
+    "orderingRules": {
+      "usingDirectivesPlacement": "outsideNamespace"
+    },
+    "maintainabilityRules": {
+      "maxParameters": 5
+    }
+  }
+}
