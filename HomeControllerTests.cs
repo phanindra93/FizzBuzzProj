@@ -31,10 +31,12 @@ namespace FizzBuzzProj.Tests
             var homeController = new HomeController(divisibleByThreeMock.Object, divisibleByFiveMock.Object, divisibleByThreeAndFiveMock.Object);
 
             // Act
-            List<string> fizzBuzzList = homeController.GenerateFizzBuzz(33); // Any number that is divisible by 3
+            int range = 33;
+            int randomNumberDivisibleByThree = GetRandomNumberInRange(range, 3);
+            List<string> fizzBuzzList = homeController.GenerateFizzBuzz(range);
 
             // Assert
-            fizzBuzzList.Should().Contain("Fizz", because: "it is divisible by 3");
+            fizzBuzzList[randomNumberDivisibleByThree - 1].Should().Be("Fizz", because: "it is divisible by 3");
         }
 
         [Fact]
@@ -46,10 +48,12 @@ namespace FizzBuzzProj.Tests
             var homeController = new HomeController(divisibleByThreeMock.Object, divisibleByFiveMock.Object, divisibleByThreeAndFiveMock.Object);
 
             // Act
-            List<string> fizzBuzzList = homeController.GenerateFizzBuzz(10);
+            int range = 10;
+            int randomNumberDivisibleByFive = GetRandomNumberInRange(range, 5);
+            List<string> fizzBuzzList = homeController.GenerateFizzBuzz(range);
 
             // Assert
-            fizzBuzzList.Should().Contain("Buzz", because: "it is divisible by 5");
+            fizzBuzzList[randomNumberDivisibleByFive - 1].Should().Be("Buzz", because: "it is divisible by 5");
         }
 
         [Fact]
@@ -61,10 +65,20 @@ namespace FizzBuzzProj.Tests
             var homeController = new HomeController(divisibleByThreeMock.Object, divisibleByFiveMock.Object, divisibleByThreeAndFiveMock.Object);
 
             // Act
-            List<string> fizzBuzzList = homeController.GenerateFizzBuzz(15);
+            int range = 15;
+            int randomNumberDivisibleByThreeAndFive = GetRandomNumberInRange(range, 15);
+            List<string> fizzBuzzList = homeController.GenerateFizzBuzz(range);
 
             // Assert
-            fizzBuzzList.Should().Contain("Fizz Buzz", because: "it is divisible by 3 and 5");
+            fizzBuzzList[randomNumberDivisibleByThreeAndFive - 1].Should().Be("Fizz Buzz", because: "it is divisible by 3 and 5");
+        }
+
+        // Helper method to get a random number within the specified range and divisible by the given divisor
+        private int GetRandomNumberInRange(int range, int divisor)
+        {
+            Random random = new Random();
+            int randomNumber = random.Next(1, range / divisor + 1) * divisor;
+            return randomNumber;
         }
     }
 }
