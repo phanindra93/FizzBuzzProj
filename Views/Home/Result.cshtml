@@ -26,28 +26,31 @@
     }
 </ul>
 
-<div class="pagination">
+<div class="pagination" style="text-align: center;">
     @if (Model.PageCount >= 1)
     {
         <ul class="pagination">
             @if (Model.HasPreviousPage)
             {
-                <li><a href="@Url.Action("Index2", new { page = Model.PageNumber - 1,number = Model.TotalItemCount   })" class="pagination-button">Previous</a></li>
+                <li style="display: inline-block; margin: 0 5px;">
+                    <a href="@Url.Action("Index2", new { page = Model.PageNumber - 1, number = Model.TotalItemCount })" class="pagination-button" style="padding: 5px 10px; text-decoration: none; background-color: #007bff; color: #fff; border-radius: 5px;">Previous</a>
+                </li>
             }
 
             @for (int i = 1; i <= Model.PageCount; i++)
             {
-                <li class="@(i == Model.PageNumber ? "active" : "")">
-                    <a href="@Url.Action("Index2", new { page = i, number = Model.TotalItemCount })" class="pagination-button">@i</a>
-                    <span>   </span>
+                <li class="@(i == Model.PageNumber ? "active" : "")" style="display: inline-block; margin: 0 5px;">
+                    <a href="@Url.Action("Index2", new { page = i, number = Model.TotalItemCount })" class="pagination-button" style="padding: 5px 10px; text-decoration: none; background-color: #007bff; color: #fff; border-radius: 5px;">@i</a>
                 </li>
             }
 
-
             @if (Model.HasNextPage)
             {
-                <li><a href="@Url.Action("Index2", new { page = Model.PageNumber + 1,number = Model.TotalItemCount  })" class="pagination-button">Next</a></li>
+                <li style="display: inline-block; margin: 0 5px;">
+                    <a href="@Url.Action("Index2", new { page = Model.PageNumber + 1, number = Model.TotalItemCount })" class="pagination-button" style="padding: 5px 10px; text-decoration: none; background-color: #007bff; color: #fff; border-radius: 5px;">Next</a>
+                </li>
             }
         </ul>
     }
 </div>
+

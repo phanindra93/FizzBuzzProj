@@ -53,12 +53,12 @@ namespace FizzBuzzProj.Controllers
                 var pageNumber = page;
                 IPagedList<string> pagedFizzBuzzList = fizzBuzzList.ToPagedList(pageNumber, pageSize);
 
-               
 
-                    return View("Result", pagedFizzBuzzList);
-                
-                    
-                
+
+                return View("Result", pagedFizzBuzzList);
+
+
+
             }
 
             return View();

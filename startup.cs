@@ -24,6 +24,9 @@ public class Startup
         services.AddScoped<IDivisibleByThree, DivisibleByThree>();
         services.AddScoped<IDivisibleByFive, DivisibleByFive>();
         services.AddScoped<IDivisibleByThreeAndFive, DivisibleByThreeAndFive>();
+        // Inside the ConfigureServices method in Startup.cs
+        services.AddTransient<IIsWednesday, IsWednesday>(); // Assuming IsWednesday is the implementation class
+
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
