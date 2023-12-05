@@ -6,12 +6,18 @@ using System.Diagnostics;
 using X.PagedList;
 
 namespace FizzBuzzProj.Controllers
+    /// <summary>
+    /// Controller for handling FizzBuzz-related actions.
+    /// </summary>
 {
     public class HomeController : Controller
     {
         private readonly IDivisibleByThree _divisibleByThree;
         private readonly IDivisibleByFive _divisibleByFive;
         private readonly IDivisibleByThreeAndFive _divisibleByThreeAndFive;
+        /// <summary>
+        /// Constructor for HomeController.
+        /// </summary>
 
 
         public HomeController(
@@ -24,12 +30,17 @@ namespace FizzBuzzProj.Controllers
             _divisibleByThreeAndFive = divisibleByThreeAndFive;
 
         }
-
+        /// <summary>
+        /// Default action for rendering the index view.
+        /// </summary>
+        /// <returns>Index view.</returns>
         public IActionResult Index()
         {
             return View();
         }
-
+        /// <summary>
+        /// Action for handling GET requests to the Index2 endpoint.
+        /// </summary>
         [HttpGet]
         public IActionResult Index2(int page = 1)
         {
@@ -41,7 +52,9 @@ namespace FizzBuzzProj.Controllers
 
             return View("Result", pagedFizzBuzzList);
         }
-
+        /// <summary>
+        /// Action for handling POST requests to the Index2 endpoint.
+        /// </summary>
         [HttpPost]
         public IActionResult Index2(FizzBuzz model, int page = 1)
         {
@@ -63,36 +76,13 @@ namespace FizzBuzzProj.Controllers
 
             return View();
         }
-
-        private List<string> GenerateFizzBuzz(int number, int currentPage)
-        {
-            List<string> fizzBuzzList = new List<string>();
-
-            int startIndex = (currentPage - 1) * 20;
-            int endIndex = Math.Min(currentPage * 20, number);
-
-            for (int i = startIndex + 1; i <= endIndex; i++)
-            {
-                if (_divisibleByThreeAndFive.IsDivisibleByThreeAndFive(i))
-                {
-                    fizzBuzzList.Add("fizz buzz");
-                }
-                else if (_divisibleByThree.IsDivisibleByThree(i))
-                {
-                    fizzBuzzList.Add("fizz");
-                }
-                else if (_divisibleByFive.IsDivisibleByFive(i))
-                {
-                    fizzBuzzList.Add("buzz");
-                }
-                else
-                {
-                    fizzBuzzList.Add(i.ToString());
-                }
-            }
-
-            return fizzBuzzList;
-        }
+        
+      
+        /// <summary>
+        /// Generates a FizzBuzz list up to the specified number.
+        /// </summary>
+        /// <param name="number">The upper limit for FizzBuzz generation.</param>
+        /// <returns>List of FizzBuzz strings.</returns>
 
         public List<string> GenerateFizzBuzz(int number)
         {
